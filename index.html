@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DaoHuei Pet Tag | GodiVanLife</title>
+
+<style>
+
+:root{
+--main:#6c9a8b;
+--bg:#f6f9f8;
+}
+
+body{
+font-family:Arial,'PingFang TC','Microsoft JhengHei',sans-serif;
+background:var(--bg);
+margin:0;
+display:flex;
+justify-content:center;
+min-height:100vh;
+}
+
+.app{
+width:100%;
+max-width:420px;
+padding:25px;
+text-align:center;
+}
+
+.pet-avatar{
+width:180px;
+height:180px;
+border-radius:50%;
+border:6px solid white;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+object-fit:cover;
+}
+
+.card{
+background:white;
+border-radius:18px;
+padding:20px;
+text-align:left;
+margin:20px 0;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+line-height:1.6;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:18px;
+border-radius:35px;
+font-size:18px;
+font-weight:bold;
+border:none;
+cursor:pointer;
+margin-top:12px;
+color:white;
+text-decoration:none;
+}
+
+.btn-sms{
+background:#007aff;
+}
+
+.btn-call{
+background:#2ed573;
+}
+
+.btn-ig{
+background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);
+}
+
+.lang{
+margin-bottom:10px;
+}
+
+.lang button{
+padding:5px 10px;
+border:none;
+border-radius:10px;
+margin:2px;
+cursor:pointer;
+}
+
+.loading{
+display:none;
+font-size:14px;
+margin-top:10px;
+color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="lang">
+<button onclick="setLang('zh')">中文</button>
+<button onclick="setLang('ja')">日本語</button>
+<button onclick="setLang('en')">English</button>
+</div>
+
+<img src="dog.jpg" class="pet-avatar" alt="DaoHuei">
+
+<h1>DaoHuei（島灰）</h1>
+
+<div class="card" id="info"></div>
+
+<button class="btn btn-sms" onclick="sendSMSLocation()" id="smsBtn"></button>
+
+<a href="tel:0937705011" class="btn btn-call" id="callBtn"></a>
+
+<a href="https://www.instagram.com/daohueiii_ma/" target="_blank" class="btn btn-ig" id="igBtn"></a>
+
+<div id="loading" class="loading">定位中...</div>
+
+</div>
+
+<script>
+
+const text={
+
+zh:{
+info:"🐶 乖巧穩定、長得很可愛<br><br>🐾 不會吠叫、不會咬人、不會攻擊狗<br><br>😳 個性偏膽小，不喜歡的人事物會自己避開<br><br>🍖 最喜歡吃肉肉",
+sms:"✉️ 透過簡訊通報主人位置",
+call:"📞 直接電話聯繫主人",
+ig:"📸 使用 Instagram 聯絡主人"
+},
+
+ja:{
+info:"🐶 とてもおとなしくて可愛い犬です<br><br>🐾 吠えない・噛まない・他の犬に攻撃しません<br><br>😳 少し臆病で、苦手な人や物からは自分で離れます<br><br>🍖 お肉が大好きです",
+sms:"✉️ SMSで位置を送る",
+call:"📞 電話で連絡",
+ig:"📸 Instagramで連絡"
+},
+
+en:{
+info:"🐶 Very calm and cute dog<br><br>🐾 Does not bark, bite, or attack other dogs<br><br>😳 A little shy. Will walk away from things she doesn't like<br><br>🍖 Loves meat very much",
+sms:"✉️ Send location via SMS",
+call:"📞 Call owner",
+ig:"📸 Contact via Instagram"
+}
+
+};
+
+function setLang(lang){
+
+document.getElementById("info").innerHTML=text[lang].info;
+document.getElementById("smsBtn").innerText=text[lang].sms;
+document.getElementById("callBtn").innerText=text[lang].call;
+document.getElementById("igBtn").innerText=text[lang].ig;
+
+}
+
+setLang("zh");
+
+function sendSMSLocation(){
+
+const loading=document.getElementById("loading");
+loading.style.display="block";
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition((pos)=>{
+
+const lat=pos.coords.latitude;
+const lng=pos.coords.longitude;
+
+const map=`https://www.google.com/maps?q=${lat},${lng}`;
+
+const phone="0937705011";
+
+const msg=encodeURIComponent(`【DaoHuei Location】I found DaoHuei. Location: ${map}`);
+
+window.location.href=`sms:${phone}?body=${msg}`;
+
+loading.style.display="none";
+
+},()=>{
+
+loading.style.display="none";
+alert("無法取得定位");
+
+});
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
