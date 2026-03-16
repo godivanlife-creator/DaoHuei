@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DaoHuei Pet Tag | GodiVanLife</title>
+<title>DaoHuei | GodiVanLife Pet Tag</title>
 
 <style>
 
@@ -14,7 +14,8 @@
 }
 
 body{
-font-family:Arial,'PingFang TC','Microsoft JhengHei',sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,
+'PingFang TC','Microsoft JhengHei',sans-serif;
 background:var(--bg);
 margin:0;
 display:flex;
@@ -29,32 +30,38 @@ padding:25px;
 text-align:center;
 }
 
-.pet-avatar{
-width:180px;
-height:180px;
+.avatar{
+width:190px;
+height:190px;
 border-radius:50%;
 border:6px solid white;
-box-shadow:0 8px 20px rgba(0,0,0,0.1);
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
 object-fit:cover;
+}
+
+h1{
+margin-top:15px;
+font-weight:600;
 }
 
 .card{
 background:white;
-border-radius:18px;
-padding:20px;
+border-radius:20px;
+padding:22px;
 text-align:left;
 margin:20px 0;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
-line-height:1.6;
+box-shadow:0 6px 18px rgba(0,0,0,0.06);
+line-height:1.7;
+font-size:15px;
 }
 
 .btn{
 display:block;
 width:100%;
-padding:18px;
-border-radius:35px;
-font-size:18px;
-font-weight:bold;
+padding:16px;
+border-radius:40px;
+font-size:17px;
+font-weight:600;
 border:none;
 cursor:pointer;
 margin-top:12px;
@@ -62,27 +69,36 @@ color:white;
 text-decoration:none;
 }
 
-.btn-sms{ background:#007aff; }
-.btn-call{ background:#2ed573; }
-.btn-ig{ background:linear-gradient(45deg,#f09433,#dc2743,#bc1888); }
+.btn-location{
+background:#007aff;
+}
+
+.btn-family{
+background:#2ed573;
+}
+
+.btn-ig{
+background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);
+}
 
 .lang{
 margin-bottom:10px;
 }
 
 .lang button{
-padding:5px 10px;
+padding:6px 12px;
 border:none;
-border-radius:10px;
-margin:2px;
+border-radius:20px;
+margin:3px;
 cursor:pointer;
+background:white;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
 
-.loading{
-display:none;
-font-size:14px;
-margin-top:10px;
-color:#666;
+.footer{
+margin-top:25px;
+font-size:12px;
+color:#999;
 }
 
 </style>
@@ -99,20 +115,22 @@ color:#666;
 </div>
 
 <img src="https://raw.githubusercontent.com/godivanlife-creator/DaoHuei/main/DSC_6627%20-%20Yu%20Qiao.jpeg"
-class="pet-avatar"
+class="avatar"
 alt="DaoHuei">
 
 <h1>DaoHuei（島灰）</h1>
 
 <div class="card" id="info"></div>
 
-<button class="btn btn-sms" onclick="sendSMSLocation()" id="smsBtn"></button>
+<button class="btn btn-location" onclick="shareLocation()" id="locBtn"></button>
 
-<a href="tel:0937705011" class="btn btn-call" id="callBtn"></a>
+<a href="tel:0937705011" class="btn btn-family" id="familyBtn"></a>
 
 <a href="https://www.instagram.com/daohueiii_ma/" target="_blank" class="btn btn-ig" id="igBtn"></a>
 
-<div id="loading" class="loading">定位中...</div>
+<div class="footer">
+GodiVanLife Pet Tag
+</div>
 
 </div>
 
@@ -122,22 +140,22 @@ const text={
 
 zh:{
 info:"🐶 乖巧穩定、長得可愛<br><br>🐾 不會吠叫、不會咬人、不會攻擊狗<br><br>😳 個性偏膽小，不喜歡的人事物會自己避開<br><br>🍖 最喜歡吃肉肉",
-sms:"✉️ 透過簡訊通報主人位置",
-call:"📞 直接電話聯繫主人",
-ig:"📸 使用 Instagram 聯絡主人"
+loc:"📍 回報目前位置",
+family:"📞 通知家人",
+ig:"📸 Instagram 回報"
 },
 
 ja:{
 info:"🐶 とてもおとなしくて可愛い犬です<br><br>🐾 吠えない・噛まない・他の犬に攻撃しません<br><br>😳 少し臆病で、苦手な人や物からは自分で離れます<br><br>🍖 お肉が大好きです",
-sms:"✉️ SMSで位置を送る",
-call:"📞 電話で連絡",
+loc:"📍 現在地を送る",
+family:"📞 家族に知らせる",
 ig:"📸 Instagramで連絡"
 },
 
 en:{
 info:"🐶 Very calm and cute dog<br><br>🐾 Does not bark, bite, or attack other dogs<br><br>😳 A little shy. Will walk away from things she doesn't like<br><br>🍖 Loves meat very much",
-sms:"✉️ Send location via SMS",
-call:"📞 Call owner",
+loc:"📍 Share my location",
+family:"📞 Notify my family",
 ig:"📸 Contact via Instagram"
 }
 
@@ -146,20 +164,20 @@ ig:"📸 Contact via Instagram"
 function setLang(lang){
 
 document.getElementById("info").innerHTML=text[lang].info;
-document.getElementById("smsBtn").innerText=text[lang].sms;
-document.getElementById("callBtn").innerText=text[lang].call;
+document.getElementById("locBtn").innerText=text[lang].loc;
+document.getElementById("familyBtn").innerText=text[lang].family;
 document.getElementById("igBtn").innerText=text[lang].ig;
 
 }
 
 setLang("zh");
 
-function sendSMSLocation(){
+function shareLocation(){
 
-const loading=document.getElementById("loading");
-loading.style.display="block";
-
-if(navigator.geolocation){
+if(!navigator.geolocation){
+alert("Location unavailable");
+return;
+}
 
 navigator.geolocation.getCurrentPosition((pos)=>{
 
@@ -168,22 +186,11 @@ const lng=pos.coords.longitude;
 
 const map=`https://www.google.com/maps?q=${lat},${lng}`;
 
-const phone="0937705011";
+navigator.clipboard.writeText(map);
 
-const msg=encodeURIComponent(`【DaoHuei Location】I found DaoHuei. Location: ${map}`);
-
-window.location.href=`sms:${phone}?body=${msg}`;
-
-loading.style.display="none";
-
-},()=>{
-
-loading.style.display="none";
-alert("無法取得定位");
+alert("Location copied. Please send via Instagram.");
 
 });
-
-}
 
 }
 
